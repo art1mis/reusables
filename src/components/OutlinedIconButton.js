@@ -20,7 +20,7 @@ OutlinedIconButton.defaultProps = {
 };
 
 OutlinedIconButton.propTypes = {
-  sx: PropTypes.object
+  sx: PropTypes.object,
 };
 
 export default OutlinedIconButton;

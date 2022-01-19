@@ -18,7 +18,7 @@ export const setCookie = (key, value, opts) => {
   if (!opts) opts = {};
   let s = escape(key) + "=" + escape(value);
   if (opts.expires) s += "; expires=" + opts.expires;
-  if(opts.maxAge) s += "; max-age=" + opts.maxAge
+  if (opts.maxAge) s += "; max-age=" + opts.maxAge;
   if (opts.path) s += "; path=" + escape(opts.path);
   if (opts.domain) s += "; domain=" + escape(opts.domain);
   if (opts.secure) s += "; secure";

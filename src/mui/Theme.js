@@ -1,12 +1,14 @@
 import React from "react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import {
   createTheme,
-  ThemeProvider as MuiThemeProvider
+  ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const DispatchContext = React.createContext(() => { throw new Error("Forgot to wrap component in `ThemeProvider`")});
+const DispatchContext = React.createContext(() => {
+  throw new Error("Forgot to wrap component in `ThemeProvider`");
+});
 
 export const usePrefersDark = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -14,30 +16,37 @@ export const usePrefersDark = () => {
   return prefersDark;
 };
 
-export const ThemeProvider = ({getDesignTokens, darkScrollbar, getCookie, setCookie, cookieName, ...other}) => {
+export const ThemeProvider = ({
+  getDesignTokens,
+  darkScrollbar,
+  getCookie,
+  setCookie,
+  cookieName,
+  ...other
+}) => {
   const prefersDark = usePrefersDark();
   const [mode, setMode] = React.useState("system");
 
-  React.useEffect(()=>{
-    if(typeof window !== 'undefined'){
-      const prevMode = getCookie(cookieName)
-      if(['light', 'dark', 'system'].includes(prevMode)){
-        setMode(prevMode)
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const prevMode = getCookie(cookieName);
+      if (["light", "dark", "system"].includes(prevMode)) {
+        setMode(prevMode);
       }
     }
-  },[getCookie, cookieName, setMode])
+  }, [getCookie, cookieName, setMode]);
 
-  React.useEffect(()=>{
-    if(typeof window !== 'undefined'){
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
       setCookie(cookieName, mode, {
-        path: '/',
-        maxAge: 31536000
-      })
+        path: "/",
+        maxAge: 31536000,
+      });
     }
-  },[mode])
+  }, [mode]);
 
-  const actualMode = mode === 'system' ? prefersDark ? 'dark': 'light'
-                            : mode
+  const actualMode =
+    mode === "system" ? (prefersDark ? "dark" : "light") : mode;
 
   const theme = React.useMemo(() => {
     const brandingDesignTokens = getDesignTokens(actualMode);
@@ -46,18 +55,18 @@ export const ThemeProvider = ({getDesignTokens, darkScrollbar, getCookie, setCoo
         ...brandingDesignTokens,
         palette: {
           ...brandingDesignTokens.palette,
-          actualMode
-        }
+          actualMode,
+        },
       },
       null,
       {
         components: {
           MuiCssBaseline: {
             styleOverrides: {
-              body: actualMode === "dark" ? darkScrollbar() : null
-            }
-          }
-        }
+              body: actualMode === "dark" ? darkScrollbar() : null,
+            },
+          },
+        },
       }
     );
     return theme_base;
@@ -71,31 +80,33 @@ export const ThemeProvider = ({getDesignTokens, darkScrollbar, getCookie, setCoo
 };
 
 ThemeProvider.defaultProps = {
-  cookieName: 'theme',
+  cookieName: "theme",
   getDesignTokens: () => ({}),
   darkScrollbar: () => null,
   getCookie: () => null,
-  setCookie: () => null
-}
+  setCookie: () => null,
+};
 
 ThemeProvider.propTypes = {
   cookieName: PropTypes.string,
   getDesignTokens: PropTypes.func,
   darkScrollbar: PropTypes.func,
   getCookie: PropTypes.func,
-  setCookie: PropTypes.func
-}
+  setCookie: PropTypes.func,
+};
 
 export const useChangeTheme = () => {
   const dispatch = React.useContext(DispatchContext);
   return React.useCallback(
     (value) => {
-      if (['light','dark','system'].includes(value)) {
+      if (["light", "dark", "system"].includes(value)) {
         dispatch(value);
       } else {
-        throw new Error('changeTheme accepts only "light","dark" and "system" value');
+        throw new Error(
+          'changeTheme accepts only "light","dark" and "system" value'
+        );
       }
     },
     [dispatch]
   );
-}
+};

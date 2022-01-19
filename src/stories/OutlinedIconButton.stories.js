@@ -1,21 +1,17 @@
-import React from 'react'
-import AdbIcon from '@mui/icons-material/Adb';
-import { OutlinedIconButton as AppOutlinedIconButton } from '/src'
+import React from "react";
+import AdbIcon from "@mui/icons-material/Adb";
+import { OutlinedIconButton as AppOutlinedIconButton } from "/src";
 
 export default {
-	title: 'Outlined Icon Button',
-	component: AppOutlinedIconButton
-}
-
-
+  title: "Outlined Icon Button",
+  component: AppOutlinedIconButton,
+};
 
 const Template = (args) => (
-		<AppOutlinedIconButton {...args}>
-			<AdbIcon />
-		</AppOutlinedIconButton>
-	)
+  <AppOutlinedIconButton {...args}>
+    <AdbIcon />
+  </AppOutlinedIconButton>
+);
 
-
-export const OutlinedIconButton = Template.bind({})
-OutlinedIconButton.args = {
-}
+export const OutlinedIconButton = Template.bind({});
+OutlinedIconButton.args = {};

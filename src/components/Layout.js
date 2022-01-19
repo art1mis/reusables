@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 const drawerWidth = 240;
 
 const StyledAppBar = styled(AppBar, {
-  shouldForwardProp: (props) => props !== "hideAppBarStyles"
+  shouldForwardProp: (props) => props !== "hideAppBarStyles",
 })(({ hideAppBarStyles, theme }) => {
   return {
     transition: theme.transitions.create("width"),
@@ -24,7 +24,7 @@ const StyledAppBar = styled(AppBar, {
     ...(hideAppBarStyles
       ? {
           boxShadow: "none",
-          background: "transparent"
+          background: "transparent",
         }
       : {
           boxShadow: `inset 0px -1px 1px ${
@@ -35,20 +35,14 @@ const StyledAppBar = styled(AppBar, {
           background:
             theme.palette.mode === "dark"
               ? theme.palette.primaryDark[900]
-              : "#FFF"
-        })
+              : "#FFF",
+        }),
   };
 });
 
 function Layout(props) {
-  const {
-    hideAppBarStyles,
-    toolbar,
-    window,
-    drawer,
-    hideDrawer,
-    ...others
-  } = props;
+  const { hideAppBarStyles, toolbar, window, drawer, hideDrawer, ...others } =
+    props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const toggleDrawer = () => {
     if (!hideDrawer) {
@@ -67,19 +61,21 @@ function Layout(props) {
         position="fixed"
         sx={{
           width: hideDrawer ? "100%" : { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: hideDrawer ? 0 : { sm: `${drawerWidth}px` }
+          ml: hideDrawer ? 0 : { sm: `${drawerWidth}px` },
         }}
         hideAppBarStyles={hideAppBarStyles}
       >
         <Toolbar>
-          {React.Children.map(toolbar, Tool => <Tool toggleDrawer={toggleDrawer}/>)}
+          {React.Children.map(toolbar, (Tool) => (
+            <Tool toggleDrawer={toggleDrawer} />
+          ))}
         </Toolbar>
       </StyledAppBar>
       <Box
         component="nav"
         sx={{
           width: { sm: hideDrawer ? 0 : drawerWidth },
-          flexShrink: { sm: 0 }
+          flexShrink: { sm: 0 },
         }}
       >
         <Drawer
@@ -88,13 +84,13 @@ function Layout(props) {
           open={hideDrawer ? false : bigScreen ? true : mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true // Better open performance on mobile.
+            keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: hideDrawer ? 0 : drawerWidth
-            }
+              width: hideDrawer ? 0 : drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -108,18 +104,18 @@ function Layout(props) {
             ? "100%"
             : {
                 sm: `calc(100% - ${drawerWidth}px)`,
-                xs: "100%"
+                xs: "100%",
               },
           ml: hideDrawer ? 0 : { sm: `${drawerWidth}px` },
           top: 0,
           bottom: 0,
           "@media (min-width: 0px) and (orientation: landscape)": {
-            mt: 6.4
+            mt: 6.4,
           },
           mt: {
             xs: 5.6,
-            sm: 6.4
-          }
+            sm: 6.4,
+          },
         }}
         {...others}
       />
@@ -130,14 +126,14 @@ function Layout(props) {
 Layout.propTypes = {
   window: PropTypes.func,
   hideAppBarStyles: PropTypes.bool,
-  hideDrawer: PropTypes.bool
+  hideDrawer: PropTypes.bool,
 };
 
 Layout.defaultProps = {
   toolbar: <></>,
   drawer: <></>,
   hideAppBarStyles: false,
-  hideDrawer: false
+  hideDrawer: false,
 };
 
 export default Layout;

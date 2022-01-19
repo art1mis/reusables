@@ -1,18 +1,18 @@
-import React from 'react'
-import { Center as AppCenter } from '/src';
+import React from "react";
+import { Center as AppCenter } from "/src";
 
 export default {
-  title: 'Center',
+  title: "Center",
   component: AppCenter,
 };
 
 //👇 We create a “template” of how args map to rendering
-const Template = (args) => (<AppCenter {...args}>Hello World!</AppCenter>)
+const Template = (args) => <AppCenter {...args}>Hello World!</AppCenter>;
 
-export const Center = Template.bind({})
+export const Center = Template.bind({});
 
 Center.args = {
-	disableX: false,
-	disableY: false,
-	sx: {}
-}
+  disableX: false,
+  disableY: false,
+  sx: {},
+};
