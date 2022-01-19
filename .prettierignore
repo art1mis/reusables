@@ -1,0 +1,6 @@
+# Ignore artifacts:
+.storybook
+node_modules
+dist
+build
+coverage
