@@ -2,11 +2,11 @@
   "name": "reusables",
   "version": "1.0.0",
   "description": "React Material UI Component Library",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.es.js",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.es.js",
       "require": "./dist/index.js"
     },
     "./package.json": "./package.json"

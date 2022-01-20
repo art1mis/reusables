@@ -13,12 +13,11 @@ export default {
       file: "dist/index.js",
     },
     {
-      file: "dist/index.mjs",
-      format: "esm",
+      file: "dist/index.es.js",
+      format: "es",
     },
   ],
   plugins: [
-    resolve(),
     postcss({
       plugins: [],
       minimize: true,
@@ -29,6 +28,7 @@ export default {
     }),
     external(),
     terser(),
+    resolve(),
     gzip(),
   ],
 };
