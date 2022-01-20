@@ -6,14 +6,14 @@ import postcss from "rollup-plugin-postcss";
 import gzip from "rollup-plugin-gzip";
 
 export default {
-  input: "./index.js",
+  input: "src/index.js",
   output: [
     {
       format: "cjs",
-      file: "./dist/index.js",
+      file: "dist/index.js",
     },
     {
-      file: "./dist/index.mjs",
+      file: "dist/index.mjs",
       format: "esm",
     },
   ],
