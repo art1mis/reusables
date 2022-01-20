@@ -8,9 +8,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --docs -o docs",
-    "pretty": "prettier --write ."
+    "story": "start-storybook -p 6006",
+    "docs": "build-storybook --docs -o docs",
+    "pretty": "prettier --write .",
+    "rm-build": "rmdir /s dist",
+    "rm-docs": "rmdir /s docs"
   },
   "author": "Art1mis",
   "license": "ISC",
