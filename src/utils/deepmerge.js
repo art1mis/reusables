@@ -1,4 +1,4 @@
-import isPlainObject from "/src/utils/isPlainObject";
+import isPlainObject from "./isPlainObject";
 
 const deepmerge = (target, source, options = { clone: true }) => {
   const output = options.clone ? { ...target } : target;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Center as AppCenter } from "/src";
+import { Center as AppCenter } from "../";
 
 export default {
   title: "Center",
