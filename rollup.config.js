@@ -15,8 +15,7 @@ export default [
       },
       {
         file: "./dist/index.es.js",
-        format: "es",
-        exports: "named",
+        format: "es"
       },
     ],
     plugins: [
@@ -31,7 +30,7 @@ export default [
       external(),
       resolve(),
       terser(),
-      gzip(),
+      gzip()
     ],
   },
 ];
