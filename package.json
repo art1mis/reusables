@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "React Material UI Component Library",
   "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
