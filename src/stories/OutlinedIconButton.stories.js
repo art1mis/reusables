@@ -1,9 +1,9 @@
-import React from "react";
-import AdbIcon from "@mui/icons-material/Adb";
-import { OutlinedIconButton as AppOutlinedIconButton } from "../";
+import React from 'react';
+import AdbIcon from '@mui/icons-material/Adb';
+import { OutlinedIconButton as AppOutlinedIconButton } from '../';
 
 export default {
-  title: "Outlined Icon Button",
+  title: 'Outlined Icon Button',
   component: AppOutlinedIconButton,
 };
 

@@ -1,137 +1,131 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Drawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
+import React from 'react';
+import PropTypes from 'prop-types';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Box from '@mui/material/Box';
+import sxc from '../mui/sxc';
 
-const drawerWidth = 240;
+/*
+  Drawer
+  => Only left and right anchor are supported. Other anchors are need to be implemented in the Drawer component itself.
+  => Drawer will have temporary variant in small screens and permanent variant in large screen, until overrided by the drawerVariant prop.
+*/
 
-const StyledAppBar = styled(AppBar, {
-  shouldForwardProp: (props) => props !== "hideAppBarStyles",
-})(({ hideAppBarStyles, theme }) => {
-  return {
-    transition: theme.transitions.create("width"),
-    color:
-      theme.palette.mode === "dark"
-        ? theme.palette.grey[500]
-        : theme.palette.grey[800],
-    ...(hideAppBarStyles
-      ? {
-          boxShadow: "none",
-          background: "transparent",
-        }
-      : {
-          boxShadow: `inset 0px -1px 1px ${
-            theme.palette.mode === "dark"
-              ? theme.palette.primaryDark[700]
-              : theme.palette.grey[100]
-          }`,
-          background:
-            theme.palette.mode === "dark"
-              ? theme.palette.primaryDark[900]
-              : "#FFF",
+const Layout = ({ drawerWidth, drawerVariant, drawerAnchor, children }) => {
+  if (!(drawerAnchor === 'left' || drawerAnchor === 'right')) {
+    throw new Error(
+      'drawerAnchor can either be left or right. Other values are not supported.',
+    );
+  }
+
+  if (typeof children !== 'function') {
+    throw new Error('Layout works with functional children component only');
+  }
+  const [state, setState] = React.useState({
+    appbar: true,
+    drawer: true,
+  });
+
+  const bigScreen = useMediaQuery('(min-width:600px)');
+  const toggleDrawer = React.useCallback(
+    (newState) => {
+      setState({
+        ...state,
+        drawer: typeof newState === 'boolean' ? newState : !state.drawer,
+      });
+    },
+    [state, setState],
+  );
+  const _drawerVariant =
+    drawerVariant || (bigScreen ? 'permanent' : 'temporary');
+  const drawer = {
+    open: state.drawer,
+    variant: _drawerVariant,
+    anchor: drawerAnchor,
+    sx: (theme) => ({
+      '&, & .MuiDrawer-paper': {
+        flexShrink: 0,
+        width: state.drawer ? drawerWidth : 0,
+        // Permanent Drawer needs transition, but temporary drawer don't need that
+        ...sxc(_drawerVariant === 'permanent', {
+          transition: theme.transitions.create(['width']),
         }),
-  };
-});
-
-function Layout(props) {
-  const { hideAppBarStyles, toolbar, window, drawer, hideDrawer, ...others } =
-    props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const toggleDrawer = () => {
-    if (!hideDrawer) {
-      setMobileOpen(!mobileOpen);
-    }
-  };
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-  const bigScreen = useMediaQuery("(min-width:600px)");
-
-  return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <StyledAppBar
-        position="fixed"
-        sx={{
-          width: hideDrawer ? "100%" : { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: hideDrawer ? 0 : { sm: `${drawerWidth}px` },
-        }}
-        hideAppBarStyles={hideAppBarStyles}
-      >
-        <Toolbar>
-          {React.Children.map(toolbar, (Tool) => (
-            <Tool toggleDrawer={toggleDrawer} />
-          ))}
-        </Toolbar>
-      </StyledAppBar>
-      <Box
-        component="nav"
-        sx={{
-          width: { sm: hideDrawer ? 0 : drawerWidth },
-          flexShrink: { sm: 0 },
-        }}
-      >
-        <Drawer
-          container={container}
-          variant={bigScreen ? "permanent" : "temporary"}
-          open={hideDrawer ? false : bigScreen ? true : mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: hideDrawer ? 0 : drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
-        sx={{
-          position: "absolute",
-          width: hideDrawer
-            ? "100%"
-            : {
-                sm: `calc(100% - ${drawerWidth}px)`,
-                xs: "100%",
-              },
-          ml: hideDrawer ? 0 : { sm: `${drawerWidth}px` },
-          top: 0,
+        // If Drawer Anchor is set to right
+        ...sxc(drawerAnchor === 'right', {
+          right: 0,
+          position: 'absolute',
+          left: 'auto',
           bottom: 0,
-          "@media (min-width: 0px) and (orientation: landscape)": {
-            mt: 6.4,
-          },
-          mt: {
-            xs: 5.6,
-            sm: 6.4,
-          },
-        }}
-        {...others}
-      />
+          top: 0,
+        }),
+      },
+    }),
+    onClose: () => toggleDrawer(false),
+    ModalProps: { keepMounted: true },
+  };
+
+  const appbar = {
+    sx: (theme) => ({
+      width:
+        _drawerVariant === 'temporary'
+          ? '100%'
+          : state.drawer
+          ? `calc(100% - ${drawerWidth}px)`
+          : '100%',
+      transition: theme.transitions.create(['width']),
+      // If Drawer Anchor is set to right
+      ...sxc(drawerAnchor === 'right', {
+        left: 0,
+        right: 'auto',
+      }),
+    }),
+  };
+
+  const content = {
+    sx: (theme) => ({
+      '&::before': {
+        content: '""',
+        display: 'block',
+        minHeight: 64,
+        [theme.breakpoints.down('sm')]: {
+          minHeight: 56,
+        },
+      },
+      width:
+        _drawerVariant === 'temporary'
+          ? '100%'
+          : state.drawer
+          ? `calc(100% - ${drawerWidth}px)`
+          : '100%',
+      position: 'relative',
+      transition: theme.transitions.create(['width']),
+    }),
+  };
+
+  if (!state.appbar) appbar.sx.display = 'none';
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        position: 'absolute',
+      }}
+    >
+      {children({ state, drawer, appbar, content, toggleDrawer })}
     </Box>
   );
-}
-
-Layout.propTypes = {
-  window: PropTypes.func,
-  hideAppBarStyles: PropTypes.bool,
-  hideDrawer: PropTypes.bool,
 };
 
 Layout.defaultProps = {
-  toolbar: <></>,
-  drawer: <></>,
-  hideAppBarStyles: false,
-  hideDrawer: false,
+  drawerAnchor: 'left',
+  drawerWidth: 240,
+};
+
+Layout.propTypes = {
+  drawerAnchor: PropTypes.oneOf(['left', 'right']),
+  drawerWidth: PropTypes.number,
 };
 
 export default Layout;

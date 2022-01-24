@@ -1,8 +1,8 @@
-import React from "react";
-import { Center as AppCenter } from "../";
+import React from 'react';
+import { Center as AppCenter } from '../';
 
 export default {
-  title: "Center",
+  title: 'Center',
   component: AppCenter,
 };
 
