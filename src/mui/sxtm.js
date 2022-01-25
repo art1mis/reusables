@@ -10,7 +10,11 @@ const sxtm = (lightValue, darkValue) => (theme) => {
       if (keys) {
         let newVal = theme;
         keys.forEach((key) => {
-          newVal = theme[key];
+          if (theme[key]) {
+            newVal = theme[key];
+          } else {
+            throw new Error(key + ' not found in theme object [sxtm]');
+          }
         });
         return newVal;
       }

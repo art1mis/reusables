@@ -7,7 +7,9 @@ import sxc from '../mui/sxc';
 /*
   Drawer
   => Only left and right anchor are supported. Other anchors are need to be implemented in the Drawer component itself.
+  => drawerAnchor prop can be used to change between left and right drawer.
   => Drawer will have temporary variant in small screens and permanent variant in large screen, until overrided by the drawerVariant prop.
+  => drawerWidth can be changed using drawerWidth prop
 */
 
 const Layout = ({ drawerWidth, drawerVariant, drawerAnchor, children }) => {
@@ -62,15 +64,16 @@ const Layout = ({ drawerWidth, drawerVariant, drawerAnchor, children }) => {
     onClose: () => toggleDrawer(false),
     ModalProps: { keepMounted: true },
   };
-
+  // Width for appbar and content
+  const width =
+    _drawerVariant === 'temporary'
+      ? '100%'
+      : state.drawer
+      ? `calc(100% - ${drawerWidth}px)`
+      : '100%';
   const appbar = {
     sx: (theme) => ({
-      width:
-        _drawerVariant === 'temporary'
-          ? '100%'
-          : state.drawer
-          ? `calc(100% - ${drawerWidth}px)`
-          : '100%',
+      width,
       transition: theme.transitions.create(['width']),
       // If Drawer Anchor is set to right
       ...sxc(drawerAnchor === 'right', {
@@ -90,12 +93,7 @@ const Layout = ({ drawerWidth, drawerVariant, drawerAnchor, children }) => {
           minHeight: 56,
         },
       },
-      width:
-        _drawerVariant === 'temporary'
-          ? '100%'
-          : state.drawer
-          ? `calc(100% - ${drawerWidth}px)`
-          : '100%',
+      width,
       position: 'relative',
       transition: theme.transitions.create(['width']),
     }),

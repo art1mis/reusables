@@ -1,9 +1,8 @@
-const sxc = (condition, obj) => {
+const sxc = (condition, obj, invalid = {}) => {
   if (condition) {
     return obj;
-  } else {
-    return {};
   }
+  return invalid;
 };
 
 export default sxc;
